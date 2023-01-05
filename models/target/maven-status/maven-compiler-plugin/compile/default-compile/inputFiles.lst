@@ -1,0 +1,5 @@
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/models/src/main/java/si/fri/rso/samples/imagecatalog/models/converters/ImageMetadataConverter.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/models/src/main/java/si/fri/rso/samples/imagecatalog/models/entities/ImageMetadataEntity.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/models/src/main/java/si/fri/rso/samples/imagecatalog/models/converters/InstantAtributeConverter.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/models/src/main/java/si/fri/rso/notifications/models/entities/NotificationEntity.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/models/src/main/java/si/fri/rso/notifications/models/converters/NotificationConverter.java

@@ -1,0 +1,5 @@
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/api/src/main/java/si/fri/rso/notifications/api/v1/NotificationApplication.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/api/src/main/java/si/fri/rso/notifications/api/v1/interceptors/LogContextInterceptor.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/api/src/main/java/si/fri/rso/notifications/api/v1/resources/DemoResource.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/api/src/main/java/si/fri/rso/notifications/api/v1/filters/MaintenanceFilter.java
+/home/ebacic/Faks/02_rso/repoti/Notifications-microservice/api/src/main/java/si/fri/rso/notifications/api/v1/resources/NotificationResource.java

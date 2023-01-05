@@ -1,0 +1,25 @@
+kumuluzee:
+  name: image-catalog-service
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8080
+    http:
+      port: 8080
+
+  kumuluzee:
+    cors-filter:
+      annotations:
+        my-resource:
+          allow-origin: "*"
+          allow-subdomains: true
+  datasources:
+    - jndi-name: jdbc/NotificationsDS
+      connection-url: jdbc:postgresql://localhost:5432/image-metadata
+      username: dbuser
+      password: postgres
+      max-pool-size: 20
+
+rest-properties:
+  maintenance-mode: false
