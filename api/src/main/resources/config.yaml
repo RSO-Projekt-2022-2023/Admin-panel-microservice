@@ -16,7 +16,7 @@ kumuluzee:
           allow-subdomains: true
           supported-methods: "GET, POST, HEAD, OPTIONS, PUT, DELETE"
   datasources:
-    - jndi-name: jdbc/NotificationsDS
+    - jndi-name: jdbc/AdminDS
       connection-url: jdbc:postgresql://localhost:5432/image-metadata
       username: dbuser
       password: postgres

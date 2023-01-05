@@ -12,9 +12,9 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 
-@OpenAPIDefinition(info = @Info(title = "Notifications API", version = "v1",
+@OpenAPIDefinition(info = @Info(title = "Admin API", version = "v1",
         contact = @Contact(email = "rso@fri.uni-lj.si"),
-        license = @License(name = "dev"), description = "API for managing notifications."),
+        license = @License(name = "dev"), description = "API for managing admin."),
         servers = @Server(url = "http://localhost:8080/"))
 @ApplicationPath("/v1")
 @CrossOrigin

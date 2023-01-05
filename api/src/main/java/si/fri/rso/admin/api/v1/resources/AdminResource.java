@@ -40,10 +40,10 @@ public class AdminResource {
     @Context
     protected UriInfo uriInfo;
 
-    @Operation(description = "Get all notifications.", summary = "Get all metadata")
+    @Operation(description = "Get all admins.", summary = "Get all metadata")
     @APIResponses({
             @APIResponse(responseCode = "200",
-                    description = "List of notifications",
+                    description = "List of admins.",
                     content = @Content(schema = @Schema(implementation = Admin.class, type = SchemaType.ARRAY)),
                     headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
             )})
@@ -146,6 +146,7 @@ public class AdminResource {
                                         @PathParam("adminId") Integer adminId){
 
         boolean deleted = AdminBean.deleteAdmin(adminId);
+
 
         if (deleted) {
             return Response.status(Response.Status.NO_CONTENT).build();
