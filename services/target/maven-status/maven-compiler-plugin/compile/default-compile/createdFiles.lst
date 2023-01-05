@@ -1,5 +1,5 @@
 si/fri/rso/samples/imagecatalog/services/beans/ImageMetadataBean.class
-si/fri/rso/notifications/services/beans/NotificationBean.class
+si/fri/rso/admin/services/config/RestProperties.class
 si/fri/rso/samples/imagecatalog/services/config/RestProperties.class
-si/fri/rso/notifications/services/config/RestProperties.class
+si/fri/rso/admin/services/beans/AdminBean.class
 si/fri/rso/samples/imagecatalog/services/producers/PersistenceProducer.class

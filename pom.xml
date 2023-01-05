@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>si.fri.rso.samples</groupId>
-    <artifactId>notifications</artifactId>
+    <artifactId>admin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
@@ -108,22 +108,22 @@
 
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>notifications-api</artifactId>
+                <artifactId>admin-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>notifications-models</artifactId>
+                <artifactId>admin-models</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>notifications-services</artifactId>
+                <artifactId>admin-services</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>notifications-lib</artifactId>
+                <artifactId>admin-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

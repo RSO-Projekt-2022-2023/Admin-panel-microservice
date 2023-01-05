@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-admin
+  template:
+    metadata:
+      labels:
+        app: aks-admin
+    spec:
+      containers:
+        - image: xineeeee/admin:2023-01-05-13-23-00
+          name: aks-admin
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://manny.db.elephantsql.com/xwwybfdv
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: xwwybfdv
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              value: njwdfg2z6zvopTpckBXGDoHvVwEoLUO2
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-admin
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: aks-admin

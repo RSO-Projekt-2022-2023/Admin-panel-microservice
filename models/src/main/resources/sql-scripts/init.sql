@@ -1,1 +1,1 @@
-INSERT INTO notifications (title, description, created) VALUES ('Prvo obvestilo', 'To je moja prva mikrostoritev, narejena je za beleženje obvestil.', TIMESTAMP '2022-03-01 15:36:38');
+INSERT INTO admins (name, surname, roles) VALUES ('Janez', 'Novak', 'Polnilnice, Obvestila');
