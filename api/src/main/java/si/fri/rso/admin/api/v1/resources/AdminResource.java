@@ -44,53 +44,18 @@ public class AdminResource {
 
     }
 
-    @Operation(description = "Send newsletter to users.", summary = "Send newsletter")
+
+
+    @Operation(description = "Mail sended..", summary = "Send mail")
     @APIResponses({
             @APIResponse(responseCode = "201",
-                    description = "Newsletter sent."
+                    description = "Mail sent."
             ),
             @APIResponse(responseCode = "405", description = "Sending error.")
     })
-    @Counted
+
     @POST
-    //@Log(LogParams.METRICS)
     @Path("/poslji")
-    public Response sendEmail() throws UnirestException {
-        HttpResponse<JsonNode> uporabnikiResponse = Unirest.get(adminProperties.getUporabnikiUrl() + "/v1/uporabniki/emails").asJson();
-
-        System.out.println(uporabnikiResponse.getBody());
-
-        JSONArray uporabnikiJson = uporabnikiResponse.getBody().getArray();
-
-        System.out.println(adminProperties.getUporabnikiUrl());
-        System.out.println(adminProperties.getUrl());
-        System.out.println(adminProperties.getApiKey());
-        System.out.println(adminProperties.getSenderMail());
-
-        for (int i = 0; i < uporabnikiJson.length(); i++) {
-            System.out.println(uporabnikiJson.getJSONObject(i).getString("email"));
-
-            Unirest.post("https://api.mailgun.net/v3/" + adminProperties.getUrl() + "/messages")
-                    .basicAuth("api", adminProperties.getApiKey())
-                    .queryString("from", adminProperties.getSenderMail())
-                    .queryString("to", uporabnikiJson.getJSONObject(i).getString("email"))
-                    .queryString("subject", "New charging station")
-                    .queryString("text", "Hello " + uporabnikiJson.getJSONObject(i).getString("firstName") + " " + uporabnikiJson.getJSONObject(i).getString("lastName") + ". A new charging station has just been added!")
-                    .asJson();
-        }
-
-        return Response.status(Response.Status.OK).build();
-    }
-
-    @Operation(description = "Send newsletter to users.", summary = "Send newsletter")
-    @APIResponses({
-            @APIResponse(responseCode = "201",
-                    description = "Newsletter sent."
-            ),
-            @APIResponse(responseCode = "405", description = "Sending error.")
-    })
-    @POST
-    @Path("/testiranje")
     public Response sendSimpleMessage() throws UnirestException {
 
         Unirest.post("https://api.mailgun.net/v3/" + "sandbox7c83cf3606fb4d18b359896a98b90e01.mailgun.org" + "/messages")
