@@ -13,7 +13,7 @@ spec:
         app: aks-admin
     spec:
       containers:
-        - image: xineeeee/admin:2023-01-05-22-38-29
+        - image: xineeeee/admin:nova9
           name: aks-admin
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: aks-admin
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8080
       protocol: TCP

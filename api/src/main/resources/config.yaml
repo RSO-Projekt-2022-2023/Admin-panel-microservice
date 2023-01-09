@@ -1,5 +1,5 @@
 kumuluzee:
-  name: image-catalog-service
+  name: admin-service
   env:
     name: dev
   version: 1.0.0
@@ -24,3 +24,7 @@ kumuluzee:
 
 rest-properties:
   maintenance-mode: false
+admin-config:
+  url:
+  api-key:
+  sender-mail:

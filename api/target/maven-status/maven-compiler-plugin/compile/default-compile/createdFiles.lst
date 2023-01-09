@@ -1,5 +1,5 @@
-si/fri/rso/admin/api/v1/resources/DemoResource.class
 META-INF/resources/java.lang.Object
+si/fri/rso/admin/api/v1/config/AdminProperties.class
 META-INF/services/javax.ws.rs.core.Application
 si/fri/rso/admin/api/v1/AdminApplication.class
 si/fri/rso/admin/api/v1/resources/AdminResource.class

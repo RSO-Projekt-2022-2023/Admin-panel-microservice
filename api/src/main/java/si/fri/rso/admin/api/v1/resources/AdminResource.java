@@ -1,161 +1,107 @@
 package si.fri.rso.admin.api.v1.resources;
 
+import com.kumuluz.ee.configuration.cdi.ConfigBundle;
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.logs.LogManager;
+import com.kumuluz.ee.logs.Logger;
+import com.kumuluz.ee.logs.cdi.Log;
+import com.kumuluz.ee.logs.cdi.LogParams;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.headers.Header;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.rso.admin.lib.Admin;
-import com.kumuluz.ee.cors.annotations.CrossOrigin;
+import org.json.JSONArray;
+
+
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.util.List;
-import java.util.logging.Logger;
-
-import com.kumuluz.ee.logs.cdi.Log;
-import si.fri.rso.admin.services.beans.AdminBean;
-
-@ApplicationScoped
+import java.util.Optional;
+@ConfigBundle("external-api")
 @Path("/admin")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@CrossOrigin(allowOrigin = "*")
-@Log
+@ApplicationScoped
 public class AdminResource {
 
-    private Logger log = Logger.getLogger(AdminResource.class.getName());
+    //private static final Logger LOG = LogManager.getLogger(NoviceResource.class.getName());
 
     @Inject
-    private si.fri.rso.admin.services.beans.AdminBean AdminBean;
+    private si.fri.rso.admin.api.v1.config.AdminProperties adminProperties;
+    String DOMAIN_NAME="http://20.105.42.67/";
 
-    @Context
-    protected UriInfo uriInfo;
-
-    @Operation(description = "Get all admins.", summary = "Get all metadata")
-    @APIResponses({
-            @APIResponse(responseCode = "200",
-                    description = "List of admins.",
-                    content = @Content(schema = @Schema(implementation = Admin.class, type = SchemaType.ARRAY)),
-                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
-            )})
     @GET
-    public Response getNotification() {
+    @Path("/test")
+    public void testGet() {
+        System.out.println("Calling GET test");
 
-        List<Admin> notification = AdminBean.getAdminFilter(uriInfo);
-
-        return Response.status(Response.Status.OK).entity(notification).build();
     }
 
-
-    @Operation(description = "Get metadata for an image.", summary = "Get metadata for an image")
-    @APIResponses({
-            @APIResponse(responseCode = "200",
-                    description = "Image metadata",
-                    content = @Content(
-                            schema = @Schema(implementation = Admin.class))
-            )})
-    @GET
-    @Path("/{adminId}")
-    public Response getAdmin(@Parameter(description = "Notification ID.", required = true)
-                                     @PathParam("adminId") Integer adminId) {
-
-        Admin notification = AdminBean.getAdmin(adminId);
-
-        if (notification == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.status(Response.Status.OK).entity(notification).build();
-    }
-
-    @Operation(description = "Add notification.", summary = "Add metadata")
+    @Operation(description = "Send newsletter to users.", summary = "Send newsletter")
     @APIResponses({
             @APIResponse(responseCode = "201",
-                    description = "Notification successfully added."
+                    description = "Newsletter sent."
             ),
-            @APIResponse(responseCode = "405", description = "Validation error .")
+            @APIResponse(responseCode = "405", description = "Sending error.")
+    })
+    @Counted
+    @POST
+    //@Log(LogParams.METRICS)
+    @Path("/poslji")
+    public Response sendEmail() throws UnirestException {
+        HttpResponse<JsonNode> uporabnikiResponse = Unirest.get(adminProperties.getUporabnikiUrl() + "/v1/uporabniki/emails").asJson();
+
+        System.out.println(uporabnikiResponse.getBody());
+
+        JSONArray uporabnikiJson = uporabnikiResponse.getBody().getArray();
+
+        System.out.println(adminProperties.getUporabnikiUrl());
+        System.out.println(adminProperties.getUrl());
+        System.out.println(adminProperties.getApiKey());
+        System.out.println(adminProperties.getSenderMail());
+
+        for (int i = 0; i < uporabnikiJson.length(); i++) {
+            System.out.println(uporabnikiJson.getJSONObject(i).getString("email"));
+
+            Unirest.post("https://api.mailgun.net/v3/" + adminProperties.getUrl() + "/messages")
+                    .basicAuth("api", adminProperties.getApiKey())
+                    .queryString("from", adminProperties.getSenderMail())
+                    .queryString("to", uporabnikiJson.getJSONObject(i).getString("email"))
+                    .queryString("subject", "New charging station")
+                    .queryString("text", "Hello " + uporabnikiJson.getJSONObject(i).getString("firstName") + " " + uporabnikiJson.getJSONObject(i).getString("lastName") + ". A new charging station has just been added!")
+                    .asJson();
+        }
+
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @Operation(description = "Send newsletter to users.", summary = "Send newsletter")
+    @APIResponses({
+            @APIResponse(responseCode = "201",
+                    description = "Newsletter sent."
+            ),
+            @APIResponse(responseCode = "405", description = "Sending error.")
     })
     @POST
-    public Response createAdmin(@RequestBody(
-            description = "DTO object with image metadata.",
-            required = true, content = @Content(
-            schema = @Schema(implementation = Admin.class))) Admin notification) {
+    @Path("/testiranje")
+    public Response sendSimpleMessage() throws UnirestException {
 
-        if ((notification.getName() == null || notification.getSurname() == null )) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            notification = AdminBean.createAdmin(notification);
-        }
-
-        return Response.status(Response.Status.CONFLICT).entity(notification).build();
-
+        Unirest.post("https://api.mailgun.net/v3/" + "sandbox7c83cf3606fb4d18b359896a98b90e01.mailgun.org" + "/messages")
+			.basicAuth("api", "67bcadce4fd9ba4d5af8fb92f9b219af-4c2b2223-23bf2ded")
+                .queryString("from", "Excited User <enej@polnilnice.com>")
+                .queryString("to", "eb0635@student.uni-lj.si")
+                .queryString("subject", "hello")
+                .queryString("text", "testing")
+                .asJson();
+        return Response.status(Response.Status.OK).build();
     }
-
-
-    @Operation(description = "Update notification.", summary = "Update metadata")
-    @APIResponses({
-            @APIResponse(
-                    responseCode = "200",
-                    description = "Notification successfully updated."
-            )
-    })
-    @PUT
-    @Path("{notificationId}")
-    public Response putAdmin(@Parameter(description = "Notification ID.", required = true)
-                                     @PathParam("notificationId") Integer notificationId,
-                                     @RequestBody(
-                                             description = "DTO object with image metadata.",
-                                             required = true, content = @Content(
-                                             schema = @Schema(implementation = Admin.class)))
-                                     Admin notification){
-
-        notification = AdminBean.putAdmin(notificationId, notification);
-
-        if (notification == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.status(Response.Status.NOT_MODIFIED).build();
-
-    }
-
-    @Operation(description = "Delete metadata for an image.", summary = "Delete metadata")
-    @APIResponses({
-            @APIResponse(
-                    responseCode = "200",
-                    description = "Metadata successfully deleted."
-            ),
-            @APIResponse(
-                    responseCode = "404",
-                    description = "Not found."
-            )
-    })
-    @DELETE
-    @Path("{adminId}")
-    public Response deleteAdmin(@Parameter(description = "Admin ID.", required = true)
-                                        @PathParam("adminId") Integer adminId){
-
-        boolean deleted = AdminBean.deleteAdmin(adminId);
-
-
-        if (deleted) {
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
-
 
 
 

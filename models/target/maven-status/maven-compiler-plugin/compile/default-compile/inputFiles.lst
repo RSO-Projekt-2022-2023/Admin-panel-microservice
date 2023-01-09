@@ -1,5 +1,2 @@
-/home/ebacic/Faks/02_rso/repoti/Admin-panel/models/src/main/java/si/fri/rso/samples/imagecatalog/models/converters/ImageMetadataConverter.java
 /home/ebacic/Faks/02_rso/repoti/Admin-panel/models/src/main/java/si/fri/rso/admin/models/converters/AdminConverter.java
-/home/ebacic/Faks/02_rso/repoti/Admin-panel/models/src/main/java/si/fri/rso/samples/imagecatalog/models/entities/ImageMetadataEntity.java
-/home/ebacic/Faks/02_rso/repoti/Admin-panel/models/src/main/java/si/fri/rso/samples/imagecatalog/models/converters/InstantAtributeConverter.java
 /home/ebacic/Faks/02_rso/repoti/Admin-panel/models/src/main/java/si/fri/rso/admin/models/entities/AdminEntity.java

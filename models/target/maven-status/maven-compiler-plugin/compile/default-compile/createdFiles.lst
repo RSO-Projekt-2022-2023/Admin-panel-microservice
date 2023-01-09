@@ -1,5 +1,2 @@
-si/fri/rso/samples/imagecatalog/models/entities/ImageMetadataEntity.class
-si/fri/rso/samples/imagecatalog/models/converters/ImageMetadataConverter.class
 si/fri/rso/admin/models/entities/AdminEntity.class
-si/fri/rso/samples/imagecatalog/models/converters/InstantAtributeConverter.class
 si/fri/rso/admin/models/converters/AdminConverter.class

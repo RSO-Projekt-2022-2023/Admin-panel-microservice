@@ -1,6 +1,8 @@
 package si.fri.rso.admin.api.v1.filters;
 
-import si.fri.rso.samples.imagecatalog.services.config.RestProperties;
+
+
+import si.fri.rso.admin.services.config.RestProperties;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

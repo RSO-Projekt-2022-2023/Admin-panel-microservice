@@ -1,5 +1,5 @@
 kumuluzee:
-  name: image-catalog-service
+  name: admin-service
   env:
     name: dev
   version: 1.0.0
@@ -16,7 +16,7 @@ kumuluzee:
           allow-subdomains: true
           supported-methods: "GET, POST, HEAD, OPTIONS, PUT, DELETE"
   datasources:
-    - jndi-name: jdbc/NotificationsDS
+    - jndi-name: jdbc/AdminDS
       connection-url: jdbc:postgresql://localhost:5432/image-metadata
       username: dbuser
       password: postgres
@@ -24,3 +24,7 @@ kumuluzee:
 
 rest-properties:
   maintenance-mode: false
+admin-config:
+  url:
+  api-key:
+  sender-mail:
